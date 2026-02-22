@@ -1,0 +1,209 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
+    background-image: url(bj.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: repeat;
+    background-attachment: fixed;
+
+}
+
+.hero {
+    position: relative;
+    height: 100vh;
+    color: white;
+    background: rgba(0, 0, 0, 0.699);
+}
+
+.navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 25px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px
+}
+.logo img {
+    height: 50px;
+    width: auto;
+
+}
+.nav-links a {
+    color: rgb(255, 0, 0);
+    text-decoration: none;
+    margin-left: 25px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+    color: rgb(255, 0, 0);
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0);
+}
+
+/* Contact box neon glass effect */
+/* Contact box - realistic glass card */
+.contact-box {
+    position: absolute; 
+    top: 55%;           
+    left: 50%;          
+    transform: translate(-50%, -50%);
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid rgba(255, 0, 0, 0.6);
+    box-shadow: 
+        0 0 15px rgba(255, 0, 0, 0.4),
+        0 0 40px rgba(255, 0, 0, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 18px;
+    padding: 45px 55px;
+    max-width: 480px;
+    width: 90%;
+    color: #ffffff;
+    z-index: 5;
+    font-family: Arial, sans-serif;
+}
+
+/* Title */
+.contact-box h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: #ff2a2a;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,0,0,0.4);
+    padding-bottom: 10px;
+}
+
+/* Each contact line */
+.contact-box p {
+    margin: 18px 0;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Label style */
+.contact-box strong {
+    display: block;
+    font-size: 13px;
+    color: #ff4d4d;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+}
+
+/* Links */
+.contact-box a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.3s;
+    word-break: break-word;
+}
+
+.contact-box a:hover {
+    color: #ff2a2a;
+    text-shadow: 0 0 8px rgba(255,0,0,0.6);
+}
+
+/* Apply Arial specifically to all children too */
+.contact-box * {
+    font-family: Arial, sans-serif;
+}
+
+/* Heading neon effect */
+.contact-box h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 28px;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff000000;
+}
+
+/* Paragraph text inside box */
+.contact-box p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.contact-box h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 28px;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff000000;
+    font-family: Arial, sans-serif; /* optional, para siguradong heading Arial rin */
+}
+
+.contact-box p {
+    font-size: 18px;
+    margin: 10px 0;
+    font-family: Arial, sans-serif; /* optional, para paragraph Arial rin */
+}
+
+/* Heading neon effect */
+.contact-box h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 25px;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff000000;
+}
+
+/* Paragraph text inside box */
+.contact-box p {
+    font-size: 15px;
+    margin: 10px 0;
+}
+.site-footer {
+  text-align: center;
+  padding: 10px;
+  background: #000000;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.footer-logo {
+  width: 40px;        /* adjust size */
+  margin-bottom: 1px;
+  opacity: 0.9;
+}
+
+
+/* MOBILE NAV */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-list {
+    display: none; /* hide by default */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(255,255,255,0.95);
+    flex-direction: column;
+    width: 200px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 998;
+  }
+
+  .nav-list.active {
+    display: flex;
+  }
+
+  .nav-list li {
+    margin: 0.5rem 0;
+  }
+}

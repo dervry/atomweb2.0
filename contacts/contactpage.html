@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Atom</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="contact.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <div class="hero">
+
+        <div class="navbar">
+    <div class="logo">
+        <img src=logo.png alt="logo">
+        </div>
+
+    <div class="nav-links">
+        <a href="homepage.html" class="home-button">Home</a>
+        <a href="contactpage.html" class="contact-button">Contact</a>
+        <a href="profilepage.html" class="profile-button">Profile</a>
+        <a href="#" onclick="logout()">Log Out</a>
+    </div>
+</div>
+<!-- Contact Information Box -->
+<div class="contact-box">
+    <h2>Contact Us</h2>
+ <p><strong>Store Address:</strong> 1-C Victoria Building, 142 Mindanao Avenue, Quezon City, Philippines, 1117</p>
+
+<p><strong>Contact Number:</strong> 
+    <a href="tel:+639153867667" target="_blank">+63 915 386 7667</a>
+</p>
+
+<p><strong>Email Address:</strong> 
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=atompremiumled2018@gmail.com&su=Store%20Inquiry&body=Hello,%0A%0AI%20would%20like%20to%20ask%20about%20your%20store.%0A%0AThank%20you." target="_blank">atompremiumled2018@gmail.com</a>
+</p>
+
+<p><strong>FB Page:</strong> 
+    <a href="https://www.facebook.com/atompremiumled2018" target="_blank">ATOM Premium LED PH</a>
+</p>
+</div>
+    </div>
+<script>
+    </script><script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import { 
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAZ3znqK2AW31dmDzpP6E3Dpa8uZvpCXSg",
+  authDomain: "atomled-76190.firebaseapp.com",
+  projectId: "atomled-76190",
+  storageBucket: "atomled-76190.firebasestorage.app",
+  messagingSenderId: "432239839608",
+  appId: "1:432239839608:web:72bcbf34f24e1ebc7f208d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// 🔐 Protect homepage
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.replace("index.html");
+  }
+});
+
+// 🚪 Logout function
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.replace("index.html");
+  });
+};
+</script>
+
+</body>
+</html>

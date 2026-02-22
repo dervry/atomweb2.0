@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Account</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="background"></div>
+
+<div class="card">
+
+    <div class="forms">
+
+        <!-- LOGIN -->
+        <div class="form login active">
+            <h2 class="typing">Welcome to Atom LED Lights!</h2>
+            <p class="sub">Log in to your account</p>
+
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <p id="loginError" style="color:red; font-size:14px;"></p>
+            <p class="forgot-text">
+             <span id="forgotPassword">Forgot Password?</span>
+            </p>
+            <button id="loginBtn" class="main-btn">LOG IN</button>
+
+            <p class="switch-text">
+                Don't have an account?
+                <span onclick="switchForm()">Create</span>
+            </p>
+        </div>
+
+        <!-- SIGN UP -->
+        <div class="form signup">
+            <h2>Create Account</h2>
+            <p class="sub">Register new account</p>
+
+            <input type="text" id="signupName" placeholder="Full Name">
+            <input type="email" id="signupEmail" placeholder="Email">
+            <input type="tel" id="signupPhone" placeholder="Contact Number">
+            <input type="text" id="signupAddress" placeholder="Address">
+            <input type="password" id="signupPassword" placeholder="Password">
+          
+           <button id="signupBtn">Register</button>
+
+            <p class="switch-text">
+                Already have an account?
+                <span onclick="switchForm()">Login</span>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+        <div class="right-content">
+        <video autoplay muted loop playsinline class="video-bg">
+    <source src="bg.mp4" type="video/mp4">
+</video>
+        </div>
+    </div>
+
+</div>
+
+<script type="module">
+
+
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import { 
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// 🔥 YOUR FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyAZ3znqK2AW31dmDzpP6E3Dpa8uZvpCXSg",
+  authDomain: "atomled-76190.firebaseapp.com",
+  projectId: "atomled-76190",
+  storageBucket: "atomled-76190.firebasestorage.app",
+  messagingSenderId: "432239839608",
+  appId: "1:432239839608:web:72bcbf34f24e1ebc7f208d",
+  measurementId: "G-TJW0T51GMF"
+};
+
+
+
+// INITIALIZE
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const provider = new GoogleAuthProvider();
+
+
+// ==========================
+// SWITCH FORM (FIXED)
+// ==========================
+window.switchForm = function() {
+  document.querySelector(".login").classList.toggle("active");
+  document.querySelector(".signup").classList.toggle("active");
+};
+
+document.getElementById("signupBtn")
+.addEventListener("click", async (e) => {
+
+  e.preventDefault();
+
+  const name = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const phone = document.getElementById("signupPhone").value.trim();
+  const address = document.getElementById("signupAddress").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  // ======================
+  // 🔥 VALIDATION
+  // ======================
+
+  if (!name || !email || !phone || !address || !password) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  // Gmail only
+  if (!email.endsWith("@gmail.com")) {
+    alert("Please use a valid Gmail address.");
+    return;
+  }
+
+  // Proper email format check
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    alert("Invalid email format.");
+    return;
+  }
+
+  // PH phone number (09xxxxxxxxx)
+  const phonePattern = /^09\d{9}$/;
+  if (!phonePattern.test(phone)) {
+    alert("Phone number must be 11 digits and start with 09.");
+    return;
+  }
+
+  // Password minimum
+  if (password.length < 6) {
+    alert("Password must be at least 6 characters.");
+    return;
+  }
+
+  // ======================
+  // 🔥 FIREBASE REGISTER
+  // ======================
+
+  try {
+
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    await setDoc(doc(db, "users", user.uid), {
+  fullName: name,
+  email: email,
+  phone: phone,
+  address: address,
+  role: "user",
+  createdAt: new Date()
+});
+
+    alert("Account Created Successfully!");
+    window.location.href = "homepage.html";
+
+  } catch (error) {
+
+    if (error.code === "auth/email-already-in-use") {
+      alert("This email is already registered.");
+    } else {
+      alert("Registration failed. Please try again.");
+    }
+
+  }
+
+});
+
+// ==========================
+// LOGIN
+// ==========================
+document.getElementById("loginBtn")
+.addEventListener("click", async (e) => {
+
+  e.preventDefault();
+
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+try {
+
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  const user = userCredential.user;
+
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+
+  if (userDoc.exists()) {
+    const userData = userDoc.data();
+
+    if (userData.role === "admin") {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "homepage.html";
+    }
+
+  } else {
+    alert("User data not found in Firestore.");
+  }
+
+} catch (error) {
+  alert(error.message);
+}
+
+});
+
+document.getElementById("forgotPassword")
+.addEventListener("click", async () => {
+
+  const email = document.getElementById("loginEmail").value;
+
+  if (!email) {
+    alert("Please enter your email first.");
+    return;
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+    alert("Password reset email sent! Check your Gmail.");
+  } catch (error) {
+    alert(error.message);
+  }
+
+});
+
+  
+</script>
+</body>
+</html>     
